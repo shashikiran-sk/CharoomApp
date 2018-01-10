@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
+    <link rel='stylesheet' href='/stylesheets/bootstrap-theme.min.css' />
+  </head>
+  <body>
+    <!-- <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p> -->
+    <div class="wrap">
+      <div class="container-fluid">
+        <h1>Welcome to Node Chatroom App</h1>
+        <div id="messages">
+
+        </div>
+        <div class="push">
+
+        </div>
+        
+      </div>
+    </div>
+    <div class="footer">
+      <div class="container-fluid">
+        <div class="row">
+          <form>
+              <div class="col-xs-8 col-sm-9">
+                  <input type="text" id="message-box" class="form-control input-lg" placeholder="Write a message here..." rows="3"/>
+                </div>
+                <div class="col-xs-4 col-sm-3">
+                  <button type="submit" id='send-message-btn' class="btn btn-primary btn-lg btn-block">Send Message</button>
+                </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+      $(function () {
+        var socket = io();
+        $('form').submit(function(){
+          socket.emit('chat message', $('#message-box').val());
+          $('#messages').append($('<li>').text($('#message-box').val()));
+          $('#message-box').val('');
+          return false;
+        });
+        socket.on('chat message', function(msg){
+          $('#messages').append($('<li>').text(msg));
+        });
+      });
+    </script>
+  </body>
+</html>
